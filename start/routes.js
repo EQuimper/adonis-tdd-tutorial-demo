@@ -20,6 +20,9 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
+Route.get('/api/challenges', 'ChallengeController.all')
+Route.get('/api/challenges/:id', 'ChallengeController.show')
+
 Route.post('/api/challenges', 'ChallengeController.store')
   .validator('CreateChallenge')
   .middleware(['auth'])
