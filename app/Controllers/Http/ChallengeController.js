@@ -13,6 +13,18 @@ class ChallengeController {
 
     return response.created(challenge)
   }
+
+  async all({ response, request }) {
+    const challenges = await Challenge.all()
+
+    return response.ok(challenges)
+  }
+
+  async show({ response, params }) {
+    const challenge = await Challenge.findOrFail(params.id)
+
+    return response.ok(challenge)
+  }
 }
 
 module.exports = ChallengeController
