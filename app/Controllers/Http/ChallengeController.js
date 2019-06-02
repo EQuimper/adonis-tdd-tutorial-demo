@@ -1,6 +1,8 @@
 'use strict'
 
 const Challenge = use('App/Models/Challenge')
+const UnauthorizedException = use('App/Exceptions/UnauthorizedException')
+
 
 class ChallengeController {
   async store({ response, request, auth }) {
@@ -24,6 +26,36 @@ class ChallengeController {
     const challenge = await Challenge.findOrFail(params.id)
 
     return response.ok(challenge)
+  }
+
+  async update({ response, request, params, auth }) {
+    const user = await auth.getUser()
+
+    const challenge = await Challenge.findOrFail(params.id)
+
+    if (challenge.user_id !== user.id) {
+      throw new UnauthorizedException();
+    }
+
+    challenge.merge(request.only(['title', 'description']));
+
+    await challenge.save();
+
+    return response.ok(challenge)
+  }
+
+  async destroy({ response, params, auth }) {
+    const user = await auth.getUser()
+
+    const challenge = await Challenge.findOrFail(params.id)
+
+    if (challenge.user_id !== user.id) {
+      throw new UnauthorizedException();
+    }
+
+    await challenge.delete()
+
+    return response.noContent();
   }
 }
 
