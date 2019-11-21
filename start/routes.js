@@ -30,4 +30,8 @@ Route.group(() => {
   Route.delete('/:id', 'ChallengeController.destroy')
 }).prefix('/api/challenges').middleware(['auth'])
 
+Route.group(() => {
+  Route.get('/', 'MovieController.index')
+}).prefix('/api/movies')
+
 Route.get('/api/me/challenges', 'MeController.challenges').middleware(['auth'])

@@ -28,3 +28,10 @@ Factory.blueprint('App/Models/Challenge', faker => {
     description: faker.sentence()
   }
 })
+
+Factory.blueprint('App/Models/Movie', (faker, index, data) => {
+  return {
+    title: faker.sentence(),
+    ...data
+  }
+})
